@@ -1,62 +1,43 @@
-package com.example.bosssystem.ability;
+package com.bosssystem.ability;
 
-import com.example.bosssystem.BossSystem;
-import com.example.bosssystem.boss.BossInstance;
-import com.example.bosssystem.util.SoundUtil;
+import com.bosssystem.BossSystem;
+import com.bosssystem.boss.BossInstance;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Particle;
-
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-public class ProjectileAbility implements BossAbility {
-
-    private final BossSystem plugin;
-
-    public ProjectileAbility(BossSystem plugin) {
-        this.plugin = plugin;
-    }
+public class ProjectileAbility extends BossAbility {
+    public ProjectileAbility(BossSystem plugin) { super(plugin, "projectile"); }
 
     @Override
-    public String getName() { return "projectile"; }
-
-    @Override
-    public int getCooldownSeconds() { return 8; }
-
-    @Override
-    public boolean execute(BossInstance boss, Player target) {
-        Location currentLoc = boss.getEntity().getEyeLocation();
-        SoundUtil.playSound(currentLoc, "ENTITY_BLAZE_SHOOT", 1.0f, 0.7f);
-
+    public void execute(BossInstance boss, LivingEntity target) {
+        Location current = boss.getEntity().getEyeLocation();
+        double dmg = plugin.getConfigManager().getAbilityDamage(boss.getLevel(), "projectile");
+        
         new BukkitRunnable() {
             int ticks = 0;
-            Location projLoc = currentLoc.clone();
-
             @Override
             public void run() {
-                if (ticks > 40 || !target.isOnline() || !boss.getEntity().isValid()) {
-                    cancel();
-                    return;
+                if (ticks++ > 80 || !boss.isAlive()) { cancel(); return; }
+                // Homing logic (very slight adjustment)
+                Vector dir = target.getLocation().add(0, 1, 0).toVector().subtract(current.toVector()).normalize().multiply(0.8);
+                current.add(dir);
+                
+                current.getWorld().spawnParticle(Particle.REDSTONE, current, 3, 0.1, 0.1, 0.1, new Particle.REDSTONEOptions(Color.RED, 1.5f));
+                
+                for (Entity e : current.getWorld().getNearbyEntities(current, 0.8, 0.8, 0.8)) {
+                    if (e instanceof Player p) {
+                        p.damage(dmg, boss.getEntity());
+                        cancel();
+                        return;
+                    }
                 }
-
-                Vector dir = target.getEyeLocation().toVector().subtract(projLoc.toVector()).normalize().multiply(1.2);
-                projLoc.add(dir);
-
-                // Red particle trail effect
-                Particle.DustOptions dust = new Particle.DustOptions(Color.RED, 1.5f);
-                projLoc.getWorld().spawnParticle(Particle.DUST, projLoc, 3, 0.1, 0.1, 0.1, dust);
-
-                if (projLoc.distanceSquared(target.getLocation()) <= 2.25) {
-                    target.damage(12.0, boss.getEntity());
-                    SoundUtil.playSound(projLoc, "ENTITY_GENERIC_EXPLODE", 1.0f, 1.2f);
-                    cancel();
-                }
-                ticks++;
             }
-        }.runTaskTimer(plugin, 1L, 1L);
-
-        return true;
+        }.runTaskTimer(plugin, 0, 1);
     }
 }
