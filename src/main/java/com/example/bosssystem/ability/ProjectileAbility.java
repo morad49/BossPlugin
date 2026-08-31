@@ -7,7 +7,7 @@ import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.Player;
 
-public class ProjectileAbility {
+public class ProjectileAbility implements BossAbility {
 
     private final BossSystem plugin;
 
@@ -15,6 +15,7 @@ public class ProjectileAbility {
         this.plugin = plugin;
     }
 
+    @Override
     public void execute(BossInstance boss, Player target) {
         if (boss == null || target == null) return;
 
