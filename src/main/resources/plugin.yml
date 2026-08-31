@@ -1,0 +1,27 @@
+name: BossSystem
+version: 1.0.0
+main: com.example.bosssystem.BossSystem
+api-version: '1.19'
+author: SeniorDeveloper
+description: Professional Production-Ready Boss Plugin for PaperMC.
+commands:
+  boss:
+    description: Main BossSystem command.
+    aliases: [bosssystem, bosses]
+    permission: boss.admin
+permissions:
+  boss.admin:
+    description: Full access to all boss management commands.
+    default: op
+  boss.spawn:
+    description: Permission to manually spawn bosses.
+    default: op
+  boss.reload:
+    description: Permission to reload plugin configs.
+    default: op
+  boss.item:
+    description: Permission to give custom boss items.
+    default: op
+  boss.region:
+    description: Permission to use region selection tools.
+    default: op
