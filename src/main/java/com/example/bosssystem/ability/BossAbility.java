@@ -5,12 +5,9 @@ import org.bukkit.entity.Player;
 
 public interface BossAbility {
     
-    /**
-     * تنفيذ القدرة الخاصة بالبوس
-     * 
-     * @param boss كائن البوس الذي ينفذ القدرة
-     * @param target اللاعب المستهدف
-     * @return true إذا تم تنفيذ القدرة بنجاح، و false إذا فشلت
-     */
+    String getName();
+    
+    int getCooldownSeconds();
+    
     boolean execute(BossInstance boss, Player target);
 }
