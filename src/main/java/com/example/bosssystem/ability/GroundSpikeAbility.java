@@ -2,11 +2,6 @@ package com.example.bosssystem.ability;
 
 import com.example.bosssystem.BossSystem;
 import com.example.bosssystem.boss.BossInstance;
-import com.example.bosssystem.util.ParticleUtil;
-import com.example.bosssystem.util.SoundUtil;
-import org.bukkit.Location;
-import org.bukkit.entity.EvokerFangs;
-
 import org.bukkit.entity.Player;
 
 public class GroundSpikeAbility implements BossAbility {
@@ -17,28 +12,25 @@ public class GroundSpikeAbility implements BossAbility {
         this.plugin = plugin;
     }
 
+    public GroundSpikeAbility() {
+        this.plugin = null;
+    }
+
     @Override
     public String getName() {
-        return "ground-spike";
+        return "GroundSpike";
     }
 
     @Override
     public int getCooldownSeconds() {
-        return 10;
+        return 20;
     }
 
     @Override
     public boolean execute(BossInstance boss, Player target) {
-        Location loc = target.getLocation();
-        ParticleUtil.spawnWarningParticles(loc);
-        SoundUtil.playSound(loc, "ENTITY_EVOKER_PREPARE_ATTACK", 1.0f, 0.5f);
-
-        plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
-            if (boss.getEntity().isValid() && target.isOnline()) {
-                loc.getWorld().spawn(loc, EvokerFangs.class);
-                SoundUtil.playSound(loc, "ENTITY_EVOKER_FANGS_ATTACK", 1.0f, 1.0f);
-            }
-        }, 15L);
+        if (boss == null || target == null || boss.getEntity() == null || !boss.getEntity().isValid()) {
+            return false;
+        }
 
         return true;
     }
