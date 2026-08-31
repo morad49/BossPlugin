@@ -1,0 +1,29 @@
+prefix: "&8[&c&lBossSystem&8] "
+no-permission: "&cYou do not have permission to execute this command."
+boss-incoming: "&4&lWARNING! A TERRIFYING BOSS IS AWAKENING..."
+boss-spawned: "&eThe %boss% &espawned at the arena!"
+boss-death: "&aThe %boss% &ahas been defeated by &e%player%&a!"
+boss-rage: "&c&l%boss% HAS ENTERED RAGE MODE!"
+boss-region-set: "&aBoss arena region successfully updated."
+boss-spawn-set: "&aBoss spawn location updated to your current position."
+boss-wand-given: "&aGiven Boss Region Selection Wand."
+boss-reward: "&gYou received a special reward for defeating the Boss!"
+invalid-level: "&cInvalid Boss level! Use 1, 2, or 3."
+invalid-item: "&cInvalid item identifier specified."
+reload-success: "&aConfiguration files reloaded successfully."
+already-active: "&cA Boss is already active in the arena!"
+no-active-boss: "&cThere is currently no active Boss."
+
+titles:
+  boss-incoming:
+    title: "&4&lBOSS INCOMING"
+    subtitle: "&cPrepare yourself..."
+    fade-in: 10
+    stay: 60
+    fade-out: 20
+  boss-rage:
+    title: "&c&lRAGE MODE!"
+    subtitle: "&7The Boss has become furious!"
+    fade-in: 5
+    stay: 40
+    fade-out: 10
