@@ -6,19 +6,14 @@ import org.bukkit.Particle;
 
 public class ParticleUtil {
 
-    public static void spawnWarningParticles(Location loc) {
+    public static void spawnExplosion(Location loc) {
         if (loc == null || loc.getWorld() == null) return;
-        loc.getWorld().spawnParticle(Particle.FLAME, loc.clone().add(0, 1, 0), 20, 0.5, 0.5, 0.5, 0.05);
+        loc.getWorld().spawnParticle(Particle.EXPLOSION_EMITTER, loc, 1);
     }
 
-    public static void spawnExplosionParticles(Location loc) {
+    public static void spawnDust(Location loc, Color color, float size) {
         if (loc == null || loc.getWorld() == null) return;
-        loc.getWorld().spawnParticle(Particle.EXPLOSION_LARGE, loc, 3, 0.5, 0.5, 0.5, 0.1);
-    }
-
-    public static void spawnHealingParticles(Location loc) {
-        if (loc == null || loc.getWorld() == null) return;
-        Particle.DustOptions dust = new Particle.DustOptions(Color.GREEN, 1.2f);
-        loc.getWorld().spawnParticle(Particle.REDSTONE, loc.clone().add(0, 1, 0), 25, 0.4, 0.6, 0.4, dust);
+        Particle.DustOptions dust = new Particle.DustOptions(color, size);
+        loc.getWorld().spawnParticle(Particle.DUST, loc.clone().add(0, 1, 0), 25, 0.4, 0.6, 0.4, dust);
     }
 }
