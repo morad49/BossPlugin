@@ -13,7 +13,7 @@ public class ParticleUtil {
 
     public static void spawnExplosionParticles(Location loc) {
         if (loc == null || loc.getWorld() == null) return;
-        loc.getWorld().spawnParticle(Particle.EXPLOSION_EMITTER, loc, 3, 0.5, 0.5, 0.5, 0.1);
+        loc.getWorld().spawnParticle(Particle.EXPLOSION_LARGE, loc, 3, 0.5, 0.5, 0.5, 0.1);
     }
 
     public static void spawnHealingParticles(Location loc) {
