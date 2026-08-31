@@ -1,27 +1,27 @@
 package com.example.bosssystem.compatibility;
 
 import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.entity.LivingEntity;
 
 public class CompatibilityManager {
 
-    @SuppressWarnings("deprecation")
     public static void setEntityMaxHealth(LivingEntity entity, double maxHealth) {
-        Attribute healthAttribute = null;
-        try {
-            healthAttribute = Attribute.valueOf("MAX_HEALTH");
-        } catch (IllegalArgumentException e) {
+        if (entity == null) return;
+
+        AttributeInstance attr = entity.getAttribute(Attribute.MAX_HEALTH);
+        if (attr == null) {
             try {
-                healthAttribute = Attribute.valueOf("GENERIC_MAX_HEALTH");
-            } catch (IllegalArgumentException ignored) {}
+                attr = entity.getAttribute(Attribute.valueOf("GENERIC_MAX_HEALTH"));
+            } catch (Exception ignored) {}
         }
 
-        if (healthAttribute != null && entity.getAttribute(healthAttribute) != null) {
-            entity.getAttribute(healthAttribute).setBaseValue(maxHealth);
-            entity.setHealth(maxHealth);
-        } else {
-            entity.setMaxHealth(maxHealth);
-            entity.setHealth(maxHealth);
+        if (attr != null) {
+            // ضبط قيمة الـ Attribute الأسامية
+            attr.setBaseValue(maxHealth);
+            // تقييد دم البوس بأقصى حد يسمح به السيرفر لمنع الكراش
+            double safeHealth = Math.min(maxHealth, attr.getValue());
+            entity.setHealth(safeHealth);
         }
     }
 }
