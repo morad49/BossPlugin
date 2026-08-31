@@ -19,6 +19,6 @@ public class ParticleUtil {
     public static void spawnHealingParticles(Location loc) {
         if (loc == null || loc.getWorld() == null) return;
         Particle.DustOptions dust = new Particle.DustOptions(Color.GREEN, 1.2f);
-        loc.getWorld().spawnParticle(Particle.DUST, loc.clone().add(0, 1, 0), 25, 0.4, 0.6, 0.4, dust);
+        loc.getWorld().spawnParticle(Particle.REDSTONE, loc.clone().add(0, 1, 0), 25, 0.4, 0.6, 0.4, dust);
     }
 }
