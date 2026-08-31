@@ -1,5 +1,6 @@
 package com.example.bosssystem.boss;
 
+import com.example.bosssystem.ability.ProjectileAbility;
 import com.example.bosssystem.BossSystem;
 import com.example.bosssystem.ability.*;
 import com.example.bosssystem.compatibility.CompatibilityManager;
