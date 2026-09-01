@@ -9,19 +9,24 @@ public class CompatibilityManager {
     public static void setEntityMaxHealth(LivingEntity entity, double maxHealth) {
         if (entity == null) return;
 
-        AttributeInstance attr = entity.getAttribute(Attribute.MAX_HEALTH);
-        if (attr == null) {
+        Attribute healthAttribute = null;
+        try {
+            // Paper 1.20.6+ / Mojang Mappings
+            healthAttribute = Attribute.valueOf("MAX_HEALTH");
+        } catch (IllegalArgumentException e1) {
             try {
-                attr = entity.getAttribute(Attribute.valueOf("GENERIC_MAX_HEALTH"));
-            } catch (Exception ignored) {}
+                // Legacy Spigot/Paper
+                healthAttribute = Attribute.valueOf("GENERIC_MAX_HEALTH");
+            } catch (IllegalArgumentException ignored) {}
         }
 
-        if (attr != null) {
-            // ضبط قيمة الـ Attribute الأسامية
-            attr.setBaseValue(maxHealth);
-            // تقييد دم البوس بأقصى حد يسمح به السيرفر لمنع الكراش
-            double safeHealth = Math.min(maxHealth, attr.getValue());
-            entity.setHealth(safeHealth);
+        if (healthAttribute != null) {
+            AttributeInstance attr = entity.getAttribute(healthAttribute);
+            if (attr != null) {
+                attr.setBaseValue(maxHealth);
+                double safeHealth = Math.min(maxHealth, attr.getValue());
+                entity.setHealth(safeHealth);
+            }
         }
     }
 }
